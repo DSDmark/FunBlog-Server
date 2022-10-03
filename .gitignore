@@ -1,0 +1,33 @@
+# Dependency directories
+node_modules/
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+.npm
+
+.eslintcache
+
+.node_repl_history
+
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+
+dist
+
+
+.temp
+.cache
+
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
