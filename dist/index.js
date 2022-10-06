@@ -19,7 +19,7 @@ app.use((0, morgan_1.default)("dev"));
 app.use((0, cookie_parser_1.default)());
 const PORT = process.env.PORT || 8000;
 //ROUTES
-app.use(routes_1.default);
+app.use("/api", routes_1.default);
 //DATABASE
 require("./config/database");
 app.listen(PORT, () => {
