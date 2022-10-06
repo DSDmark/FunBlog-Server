@@ -20,7 +20,9 @@ export const registationValidation = async (req: Request, res: Response, next: N
 	}
 
 	// PASSWORD VALIDATION
-	if (password.length < 6) {
+	if (!password) {
+		error.push("Enter you password");
+	} else if (password.length < 6) {
 		error.push("Password Must be upto 6 charator");
 	}
 
