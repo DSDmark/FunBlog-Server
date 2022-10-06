@@ -12,7 +12,7 @@ interface IUser {
 
 const userSchema = new mongoose.Schema({
 	name: {
-		tyle: String,
+		type: String,
 		required: [true, "Add your name"],
 		trim: true,
 		maxLength: [20, "Your name is too long"]

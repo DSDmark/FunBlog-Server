@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import router from "./routes";
 
+
 // MIDDLEWARE
 const app = express();
 app.use(express.json());
@@ -17,8 +18,9 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 8000;
 
+
 //ROUTES
-app.use(router);
+app.use("/api", router);
 
 //DATABASE
 import "./config/database"
