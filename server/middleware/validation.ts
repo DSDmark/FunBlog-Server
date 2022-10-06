@@ -25,6 +25,8 @@ export const registationValidation = async (req: Request, res: Response, next: N
 	}
 
 	if (error.length > 0) return res.status(400).json({ msg: error });
+
+	next();
 }
 
 export function validateEmail(email: string) {
