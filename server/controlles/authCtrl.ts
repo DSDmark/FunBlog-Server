@@ -2,6 +2,8 @@ import { Request, Response } from "express"
 import User from "../models/useModels"
 import bcrypt from "bcrypt";
 import { activeToken } from "../config/token";
+import { validateEmail } from "../middleware/validation";
+import sendEmail from "../config/sendMail";
 
 const authCtrl = {
 	register: async (req: Request, res: Response) => {
@@ -21,8 +23,12 @@ const authCtrl = {
 			}
 
 			const token = activeToken({ newUser });
+			const url = `${process.env['BASE_URL']}/active/${token}`;
 
-			res.json({ status: "ok", msg: "registered", data: newUser, token });
+			if (validateEmail(email)) {
+				sendEmail(email, `${url}`, name, "You need to Verify");
+				res.json({ msg: "you are verifiy....." });
+			}
 
 		} catch (error: any) {
 			res.status(500).json({ msg: error })
