@@ -5,6 +5,20 @@ import { activeToken } from "../config/token";
 import { validateEmail, validPhone } from "../middleware/validation";
 import sendEmail from "../config/sendMail";
 import { sendSms } from "../config/sendSms";
+import jwt from "jsonwebtoken"
+
+interface IDecodedToken {
+	id?: string;
+	newUser: INewUser;
+	iat: number;
+	exp: number;
+}
+
+interface INewUser {
+	name: string;
+	account: string;
+	password: string;
+}
 
 const authCtrl = {
 	register: async (req: Request, res: Response) => {
@@ -36,7 +50,22 @@ const authCtrl = {
 			res.status(500).json({ msg: error })
 
 		}
-	}
+	},
+	activeAccount: async (req: Request, res: Response) => {
+		try {
+			const { active } = req.body
+			const key = process.env["ACTIVE_TOKEN"];
+			const decoded = <IDecodedToken>jwt.verify(active, `${key}`)
+			console.log(decoded)
+			const { newUser } = decoded;
+			if (!newUser) return res.status(500).json({ msg: "Invalid auth." })
+			const new_user = new User(newUser);
+			await new_user.save();
+			res.json({ msg: "you account active now" })
+		} catch (error) {
+			return res.status(500).json({ msg: error });
+		}
+	},
 }
 
 export default authCtrl;
