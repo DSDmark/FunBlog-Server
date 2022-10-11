@@ -5,6 +5,7 @@ import { activeToken } from "../config/token";
 import { validateEmail, validPhone } from "../middleware/validation";
 import sendEmail from "../config/sendMail";
 import { sendSms } from "../config/sendSms";
+<<<<<<< HEAD
 import jwt from "jsonwebtoken"
 
 interface IDecodedToken {
@@ -19,6 +20,8 @@ interface INewUser {
 	account: string;
 	password: string;
 }
+=======
+>>>>>>> master
 
 const authCtrl = {
 	register: async (req: Request, res: Response) => {
