@@ -5,7 +5,7 @@ import { activeToken } from "../config/token";
 import { validateEmail, validPhone } from "../middleware/validation";
 import sendEmail from "../config/sendMail";
 import { sendSms } from "../config/sendSms";
-<<<<<<< HEAD
+
 import jwt from "jsonwebtoken"
 
 interface IDecodedToken {
@@ -20,8 +20,7 @@ interface INewUser {
 	account: string;
 	password: string;
 }
-=======
->>>>>>> master
+
 
 const authCtrl = {
 	register: async (req: Request, res: Response) => {
@@ -29,18 +28,18 @@ const authCtrl = {
 			const { name, account, password } = req.body;
 			const newEmail = await User.findOne({ account });
 			if (newEmail) return res.status(400).json({ msg: "This email is already persented" });
-
+      
 			if (password.length < 6) return res.status(400).json({ msg: "you password is too short" });
-
+      
 			const hashPassword = await bcrypt.hash(password, 12);
-
+      
 			const newUser = {
 				name, account, password: hashPassword
 			}
-
+      
 			const token = activeToken({ newUser });
 			const url = `${process.env['BASE_URL']}/active/${token}`;
-
+      
 			if (validateEmail(account)) {
 				sendEmail(account, `${url}`, name, "You need to Verify");
 				res.json({ msg: "you are verifiy....." });
@@ -48,10 +47,10 @@ const authCtrl = {
 				sendSms(account, `${url}`, "You need to verification...");
 				res.json({ msg: "go and verify yourself" });
 			}
-
+      
 		} catch (error: any) {
 			res.status(500).json({ msg: error })
-
+      
 		}
 	},
 	activeAccount: async (req: Request, res: Response) => {
@@ -70,5 +69,8 @@ const authCtrl = {
 		}
 	},
 }
+
+
+
 
 export default authCtrl;
