@@ -1,5 +1,7 @@
 import mongoose, { Document } from "mongoose";
 
+// THERE IS NEED TO CAREATE A FILE FOR INTERFACES .
+
 export interface IUser extends Document {
 	name: string;
 	email: string;
