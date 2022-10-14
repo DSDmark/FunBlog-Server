@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-interface IUser {
+export interface IUser extends Document {
 	name: string;
 	email: string;
 	password: string;
@@ -8,6 +8,7 @@ interface IUser {
 	role: string;
 	type: string;
 	token: string;
+	_doc: object;
 }
 
 const userSchema = new mongoose.Schema({
