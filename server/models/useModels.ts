@@ -37,12 +37,13 @@ const userSchema = new mongoose.Schema({
 	},
 	role: {
 		type: String,
-		default: "normal"
+		default: "sudo"
 	},
 	type: {
 		type: String,
 		default: "register"
 	},
+	_doc: Object,
 	token: { type: String, select: false }
 }, { timestamps: true });
 

@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8000;
 
 
 //ROUTES
-app.use("/api", router);
+app.use("/apis", router);
 
 //DATABASE
 import "./config/database"
