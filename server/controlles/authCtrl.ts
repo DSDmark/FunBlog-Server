@@ -73,10 +73,12 @@ const authCtrl = {
 			const { account, password } = req.body;
 			const user = await User.findOne(account);
 			console.log(user)
-			if (!user) return res.status(400).json({ msg: "you need to register first" });
+			if (!user || !password) return res.status(400).json({ msg: "you need to register first" });
 
 			//IF USER DATA EXISTS
 			loginUser(user, password, res);
+
+
 		} catch (error) {
 			res.status(500).json({ msg: [error, "hey"] });
 		}
@@ -89,9 +91,11 @@ const loginUser = async (user: IUser, password: string, res: Response) => {
 		let error = user.type === "register" ? "incorrect" : `this account with ${user.type}`
 		res.status(500).json({ msg: error })
 	}
+	res.status(200).json({ msg: "login successfull" })
 }
 
 
 
 
 export default authCtrl;
+
