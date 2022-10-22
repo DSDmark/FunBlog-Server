@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import User, { IUser } from "../models/useModels"
 import bcrypt from "bcrypt";
-import { activeToken, rfToken } from "../config/token";
+import { activeToken } from "../config/token";
 import { validateEmail, validPhone } from "../middleware/validation";
 import sendEmail from "../config/sendMail";
 import { sendSms } from "../config/sendSms";
@@ -38,7 +38,7 @@ const authCtrl = {
 			}
 
 			const token = activeToken({ newUser });
-			const url = `${process.env['BASE_URL']}/apis/active/${token}`;
+			const url = `${process.env['BASE_URL']}/active/${token}`;
 
 			if (validateEmail(account)) {
 				sendEmail(account, `${url}`, name, "You need to Verify");
@@ -64,18 +64,18 @@ const authCtrl = {
 			const new_user = new User(newUser);
 			await new_user.save();
 			res.json({ msg: "you account active now" })
-		} catch (error: any) {
-			// if (error.msg.code === 11000) return res.status(500).json({ msg: "You email already exists:" })
+		} catch (error) {
 			return res.status(500).json({ msg: error });
 		}
 	},
 	login: async (req: Request, res: Response) => {
 		try {
 			const { account, password } = req.body;
-			const user = await User.findOne({ account });
+			const user = await User.findOne(account);
 			console.log(user)
 			if (!user) return res.status(400).json({ msg: "you need to register first" });
-			//IF USER DATA EXISTS```
+
+			//IF USER DATA EXISTS
 			loginUser(user, password, res);
 		} catch (error) {
 			res.status(500).json({ msg: [error, "hey"] });
@@ -85,20 +85,10 @@ const authCtrl = {
 
 const loginUser = async (user: IUser, password: string, res: Response) => {
 	const isMatch = await bcrypt.compare(password, user.password);
-	if (!isMatch) {
+	if (isMatch) {
 		let error = user.type === "register" ? "incorrect" : `this account with ${user.type}`
 		res.status(500).json({ msg: error })
 	}
-
-	const rf_token = rfToken({ id: user._id }, res);
-
-	await User.findOneAndUpdate({ _id: user._id }, {
-		token: rf_token
-	})
-
-	res.status(200).json({
-		msg: "login successful", users: { ...user, password: "" }
-	})
 }
 
 
