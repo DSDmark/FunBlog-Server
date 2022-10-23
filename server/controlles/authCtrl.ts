@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import User, { IUser } from "../models/useModels"
 import bcrypt from "bcrypt";
-import { activeToken } from "../config/token";
+import { activeToken, rfToken, accessToken } from "../config/token";
 import { validateEmail, validPhone } from "../middleware/validation";
 import sendEmail from "../config/sendMail";
 import { sendSms } from "../config/sendSms";
@@ -71,14 +71,12 @@ const authCtrl = {
 	login: async (req: Request, res: Response) => {
 		try {
 			const { account, password } = req.body;
-			const user = await User.findOne(account);
+			const user = await User.findOne({ account });
 			console.log(user)
 			if (!user || !password) return res.status(400).json({ msg: "you need to register first" });
 
 			//IF USER DATA EXISTS
 			loginUser(user, password, res);
-
-
 		} catch (error) {
 			res.status(500).json({ msg: [error, "hey"] });
 		}
@@ -87,11 +85,23 @@ const authCtrl = {
 
 const loginUser = async (user: IUser, password: string, res: Response) => {
 	const isMatch = await bcrypt.compare(password, user.password);
-	if (isMatch) {
-		let error = user.type === "register" ? "incorrect" : `this account with ${user.type}`
-		res.status(500).json({ msg: error })
+	if (!isMatch) {
+		let error = user.type === "register" ? "incorrect" : `this account with ${user.type}`;
+		res.status(400).json({ msg: error })
 	}
-	res.status(200).json({ msg: "login successfull" })
+
+	const rftoken = rfToken({ id: user._id }, res);
+	const accesstoken = accessToken({ id: user._id });
+
+	await User.findOneAndUpdate({ id: user._id }, {
+		token: rftoken
+	})
+
+	res.json({
+		msg: "login success:-)",
+		accesstoken,
+		user: { ...user._doc, password: "" }
+	})
 }
 
 
