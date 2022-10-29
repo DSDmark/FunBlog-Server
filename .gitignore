@@ -1,7 +1,7 @@
 # Dependency directories
 node_modules/
 web_modules/
-client/**/**
+
 
 # TypeScript cache
 *.tsbuildinfo
