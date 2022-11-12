@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Search from "./Search"
 
 const Header = () => {
 	const LoginLinks = [
@@ -11,13 +12,13 @@ const Header = () => {
 			<nav className="navbar navbar-expand-lg navbar-light bg-light p-4">
 				<div className="container-fluid">
 
-					<Link className="navbar-brand" to={"#"}>FunBlog</Link>
+					<Link className="navbar-brand" to={"/"}>FunBlog</Link>
 					<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span className="navbar-toggler-icon"></span>
 					</button>
 
-					<div className="collapse navbar-collapse" id="navbarNav">
-
+					<div className="collapse navbar-collapse" id="navbarSupportedContent">
+						<Search />
 						<ul className="navbar-nav  mb-2  ms-auto">
 
 							<li className="nav-item">
