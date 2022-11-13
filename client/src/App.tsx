@@ -14,7 +14,7 @@ function App() {
 				<Route path="/:page" element={<PageRender />} />
 				<Route path="/:page/:slug" element={<PageRender />} />
 			</Routes>
-			<Footer/>
+			<Footer />
 		</Router>
 	);
 }
