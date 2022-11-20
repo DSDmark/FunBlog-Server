@@ -72,13 +72,11 @@ const authCtrl = {
 		try {
 			const { account, password } = req.body;
 			const user = await User.findOne({ account });
-			console.log(user)
 			if (!user || !password) return res.status(400).json({ msg: "you need to register first" });
-
 			//IF USER DATA EXISTS
 			loginUser(user, password, res);
 		} catch (error) {
-			res.status(500).json({ msg: [error, "hey"] });
+			res.status(500).json({ msg: error, m: "this is catch with 500" });
 		}
 	}
 }
@@ -87,7 +85,7 @@ const loginUser = async (user: IUser, password: string, res: Response) => {
 	const isMatch = await bcrypt.compare(password, user.password);
 	if (!isMatch) {
 		let error = user.type === "register" ? "incorrect" : `this account with ${user.type}`;
-		res.status(400).json({ msg: error })
+		return res.status(400).json({ msg: error, m: "this is msg isM with 400" });
 	}
 
 	const rftoken = rfToken({ id: user._id }, res);
