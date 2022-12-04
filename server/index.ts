@@ -28,3 +28,4 @@ import "./config/database"
 app.listen(PORT, () => {
 	console.log(`Server Running on ${PORT}`);
 })
+
