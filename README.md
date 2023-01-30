@@ -28,7 +28,6 @@
 1. As I mentioned above there is two part of this application, first is **FunBlog-Client** for **client-side** and second is **FunBlog-Server** for **server-side**. 
 2. It's a server-side with is made on **NodeJS** and use **ReactJS** as a cient site. As for database, I used **MongoDB**. I'm used Replit for making this website. You can't run both client and server with one server on Replit. That why, I had separated both part.
 3. Here are the following things you need to config first before you use this application.
-    - dff
 
 ---
 
